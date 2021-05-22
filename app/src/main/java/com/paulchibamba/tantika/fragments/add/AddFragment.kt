@@ -37,9 +37,12 @@ class AddFragment : Fragment() {
 
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_add, container, false)
+
         titleEditText = view.findViewById(R.id.title_et) as EditText
         prioritySpinner = view.findViewById(R.id.priorities_spinner) as Spinner
         descriptionEditText = view.findViewById(R.id.description_et) as EditText
+
+        prioritySpinner.onItemSelectedListener = mSharedViewModel.listener
         return view
     }
 
