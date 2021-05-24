@@ -14,6 +14,7 @@
     <string name="add">Add</string>
     <string name="save">Save</string>
     <string name="delete">Delete</string>
+    <string name="my_whiskey">My Whiskey</string>
     <string-array name="priorities">
         <item>High Priority</item>
         <item>Medium Priority</item>

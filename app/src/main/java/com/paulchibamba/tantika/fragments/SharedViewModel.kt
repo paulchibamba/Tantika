@@ -7,11 +7,20 @@ import android.widget.AdapterView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
 import com.paulchibamba.tantika.R
 import com.paulchibamba.tantika.data.models.Priority
+import com.paulchibamba.tantika.data.models.ToDoData
 
 class SharedViewModel(application: Application): AndroidViewModel(application) {
 
+    val emptyDatabase: MutableLiveData<Boolean> = MutableLiveData(true)
+    fun checkIfDatabaseIsEmpty(toDoData: List<ToDoData>){
+        emptyDatabase.value = toDoData.isEmpty()
+
+    }
+
+    //Spinner Color Logic
     val listener: AdapterView.OnItemSelectedListener = object :
     AdapterView.OnItemSelectedListener{
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -19,9 +28,7 @@ class SharedViewModel(application: Application): AndroidViewModel(application) {
                 0 -> { (parent?.getChildAt(0) as TextView).setTextColor(ContextCompat.getColor(application, R.color.red)) }
                 1 -> { (parent?.getChildAt(0) as TextView).setTextColor(ContextCompat.getColor(application, R.color.yellow)) }
                 2 -> { (parent?.getChildAt(0) as TextView).setTextColor(ContextCompat.getColor(application, R.color.green)) }
-
             }
-
         }
 
         override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -44,6 +51,14 @@ class SharedViewModel(application: Application): AndroidViewModel(application) {
             "Low Priority" -> {
                 Priority.LOW}
             else -> Priority.LOW
+        }
+    }
+
+    fun parsePriorityToInt(priority: Priority): Int{
+        return when(priority){
+            Priority.HIGH -> 0
+            Priority.MEDIUM -> 1
+            Priority.LOW -> 2
         }
     }
 
