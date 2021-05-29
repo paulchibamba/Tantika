@@ -21,6 +21,8 @@ import com.paulchibamba.tantika.data.viewmodel.ToDoViewModel
 import com.paulchibamba.tantika.databinding.FragmentListBinding
 import com.paulchibamba.tantika.fragments.SharedViewModel
 import com.paulchibamba.tantika.fragments.list.Adapter.ListAdapter
+import jp.wasabeef.recyclerview.animators.LandingAnimator
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 import kotlinx.coroutines.InternalCoroutinesApi
 import java.text.FieldPosition
 
@@ -63,6 +65,9 @@ class ListFragment : Fragment(), View.OnClickListener {
         val recyclerView = binding.recyclerView
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())
+        recyclerView.itemAnimator = LandingAnimator().apply {
+            addDuration = 300
+        }
 
         //Allows user to swipe left to delete an item
         swipeToDelete(recyclerView)
