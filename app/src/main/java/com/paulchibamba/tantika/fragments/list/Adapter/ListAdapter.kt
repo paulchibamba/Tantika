@@ -1,22 +1,15 @@
-package com.paulchibamba.tantika.fragments.list
+package com.paulchibamba.tantika.fragments.list.Adapter
 
-import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat
-import androidx.navigation.findNavController
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.paulchibamba.tantika.R
-import com.paulchibamba.tantika.data.models.Priority
 import com.paulchibamba.tantika.data.models.ToDoData
 import com.paulchibamba.tantika.databinding.RowLayoutBinding
 
 class ListAdapter : RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
 
-    private var dataList = emptyList<ToDoData>()
+    var dataList = emptyList<ToDoData>()
 
     class MyViewHolder(private val binding: RowLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(toDoData: ToDoData){
@@ -24,7 +17,7 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
             binding.executePendingBindings()
         }
         companion object{
-            fun from(parent: ViewGroup): MyViewHolder{
+            fun from(parent: ViewGroup): MyViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = RowLayoutBinding.inflate(layoutInflater, parent, false)
                 return MyViewHolder(binding)
@@ -46,7 +39,10 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
     }
 
     fun setData(toDoData: List<ToDoData>){
+        //Implements DiffUtil
+        val toDoDiffUtil = ToDoDiffUtil(dataList, toDoData)
+        val toDoDiffResult = DiffUtil.calculateDiff(toDoDiffUtil)
         this.dataList = toDoData
-        notifyDataSetChanged()
+        toDoDiffResult.dispatchUpdatesTo(this)
     }
 }
