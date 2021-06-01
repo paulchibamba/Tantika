@@ -3,10 +3,8 @@ package com.paulchibamba.tantika.fragments
 import android.os.Build
 import android.view.View
 import android.widget.Spinner
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
-import androidx.constraintlayout.solver.state.State
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
@@ -16,7 +14,6 @@ import com.paulchibamba.tantika.R
 import com.paulchibamba.tantika.data.models.Priority
 import com.paulchibamba.tantika.data.models.ToDoData
 import com.paulchibamba.tantika.fragments.list.ListFragmentDirections
-import kotlinx.android.synthetic.main.fragment_list.view.*
 
 class BindingAdapters {
     companion object{
