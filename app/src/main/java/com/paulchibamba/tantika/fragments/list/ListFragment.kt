@@ -20,6 +20,7 @@ import com.paulchibamba.tantika.data.viewmodel.ToDoViewModel
 import com.paulchibamba.tantika.databinding.FragmentListBinding
 import com.paulchibamba.tantika.fragments.SharedViewModel
 import com.paulchibamba.tantika.fragments.list.Adapter.ListAdapter
+import com.paulchibamba.tantika.utils.hideKeyboard
 import jp.wasabeef.recyclerview.animators.LandingAnimator
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 import kotlinx.coroutines.InternalCoroutinesApi
@@ -57,6 +58,9 @@ class ListFragment : Fragment(), View.OnClickListener, SearchView.OnQueryTextLis
 
         //Set Menu
         setHasOptionsMenu(true)
+
+        //Hide Keyboard In ListFragment
+        hideKeyboard(requireActivity())
         return binding.root
     }
 
