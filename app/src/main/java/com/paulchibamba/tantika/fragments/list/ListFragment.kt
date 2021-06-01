@@ -4,15 +4,14 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.text.BoringLayout.make
 import android.view.*
+import androidx.appcompat.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.*
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.Snackbar.make
 import com.paulchibamba.tantika.R
@@ -27,7 +26,7 @@ import kotlinx.coroutines.InternalCoroutinesApi
 import java.text.FieldPosition
 
 @InternalCoroutinesApi
-class ListFragment : Fragment(), View.OnClickListener {
+class ListFragment : Fragment(), View.OnClickListener, SearchView.OnQueryTextListener{
     private val mToDoViewModel: ToDoViewModel by viewModels()
     private val mSharedViewModel: SharedViewModel by viewModels()
 
@@ -64,7 +63,7 @@ class ListFragment : Fragment(), View.OnClickListener {
     private fun setupRecyclerView() {
         val recyclerView = binding.recyclerView
         recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(requireActivity())
+        recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         recyclerView.itemAnimator = LandingAnimator().apply {
             addDuration = 300
         }
@@ -97,13 +96,16 @@ class ListFragment : Fragment(), View.OnClickListener {
         )
         snackbar.setAction("Undo"){
             mToDoViewModel.insertData(deletedItem)
-            adapter.notifyItemChanged(position)
         }
         snackbar.show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.list_fragment_menu, menu)
+        val search = menu.findItem(R.id.menu_search)
+        val searchView = search.actionView as? SearchView
+        searchView?.isSubmitButtonEnabled = true
+        searchView?.setOnQueryTextListener(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -119,10 +121,36 @@ class ListFragment : Fragment(), View.OnClickListener {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId){
-            R.id.menu_delete_all ->
-                confirmRemoval()
+            R.id.menu_delete_all -> confirmRemoval()
+            R.id.menu_priority_high -> mToDoViewModel.sortByHighPriority.observe(this, Observer { adapter.setData(it) })
+            R.id.menu_priority_low -> mToDoViewModel.sortByLowPriority.observe(this, Observer { adapter.setData(it) })
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        if (query != null){
+            searchThroughDatabase(query)
+        }
+        return true
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        if (newText != null){
+            searchThroughDatabase(newText)
+        }
+        return true
+    }
+
+    private fun searchThroughDatabase(query: String) {
+        val searchQuery: String = "%$query%"
+
+        mToDoViewModel.searchDatabase(searchQuery).observe(this, Observer {list ->
+            list?.let {
+                adapter.setData(it)
+            }
+        })
+
     }
 
     //Show an Alert Dialog Message to confirm the removal of all items
