@@ -15,8 +15,6 @@ import com.paulchibamba.tantika.data.models.ToDoData
 import com.paulchibamba.tantika.data.viewmodel.ToDoViewModel
 import com.paulchibamba.tantika.databinding.FragmentUpdateBinding
 import com.paulchibamba.tantika.fragments.SharedViewModel
-import kotlinx.android.synthetic.main.fragment_update.*
-import kotlinx.android.synthetic.main.fragment_update.view.*
 import kotlinx.coroutines.InternalCoroutinesApi
 
 @InternalCoroutinesApi
@@ -63,9 +61,9 @@ class UpdateFragment : Fragment() {
     }
 
     private fun updateItem() {
-        val title = current_title_et.text.toString()
-        val getPriority = current_priorities_spinner.selectedItem.toString()
-        val description = current_description_et.text.toString()
+        val title = binding.currentTitleEt.text.toString()
+        val getPriority = binding.currentPrioritiesSpinner.selectedItem.toString()
+        val description = binding.currentDescriptionEt.text.toString()
 
         val validation = mSharedViewModel.verifyDataFromUser(title, description)
         if (validation){

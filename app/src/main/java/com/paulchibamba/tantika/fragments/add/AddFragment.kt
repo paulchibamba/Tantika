@@ -1,20 +1,15 @@
 package com.paulchibamba.tantika.fragments.add
 
 import android.os.Bundle
-import android.renderscript.RenderScript
-import android.text.TextUtils
 import android.view.*
-import android.widget.EditText
-import android.widget.Spinner
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.paulchibamba.tantika.R
-import com.paulchibamba.tantika.data.ToDoDatabase
-import com.paulchibamba.tantika.data.models.Priority
 import com.paulchibamba.tantika.data.models.ToDoData
 import com.paulchibamba.tantika.data.viewmodel.ToDoViewModel
+import com.paulchibamba.tantika.databinding.FragmentAddBinding
 import com.paulchibamba.tantika.fragments.SharedViewModel
 import kotlinx.coroutines.InternalCoroutinesApi
 
@@ -24,26 +19,27 @@ class AddFragment : Fragment() {
     @InternalCoroutinesApi
     private val mTodoViewModel: ToDoViewModel by viewModels()
     private val mSharedViewModel: SharedViewModel by viewModels()
-    private lateinit var titleEditText: EditText
-    private lateinit var prioritySpinner: Spinner
-    private lateinit var descriptionEditText: EditText
+    private var _binding: FragmentAddBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+        // Inflate the layout for this fragment
+        _binding = FragmentAddBinding.inflate(layoutInflater, container, false)
+
         //Set Menu
         setHasOptionsMenu(true)
 
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_add, container, false)
 
-        titleEditText = view.findViewById(R.id.title_et) as EditText
-        prioritySpinner = view.findViewById(R.id.priorities_spinner) as Spinner
-        descriptionEditText = view.findViewById(R.id.description_et) as EditText
 
-        prioritySpinner.onItemSelectedListener = mSharedViewModel.listener
-        return view
+//        titleEditText = binding.titleEt
+//        prioritySpinner = binding.prioritiesSpinner
+//        descriptionEditText = binding.descriptionEt
+
+        binding.prioritiesSpinner.onItemSelectedListener = mSharedViewModel.listener
+        return binding.root
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -59,9 +55,9 @@ class AddFragment : Fragment() {
 
     @InternalCoroutinesApi
     private fun insertDataToDb() {
-        val mTitle = titleEditText.text.toString()
-        val mPriority = prioritySpinner.selectedItem.toString()
-        val mDescription = descriptionEditText.text.toString()
+        val mTitle = binding.titleEt.text.toString()
+        val mPriority = binding.prioritiesSpinner.selectedItem.toString()
+        val mDescription = binding.descriptionEt.text.toString()
         val validation = mSharedViewModel.verifyDataFromUser(mTitle, mDescription)
 
         if (validation){
@@ -82,5 +78,8 @@ class AddFragment : Fragment() {
         }
     }
 
-
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }
