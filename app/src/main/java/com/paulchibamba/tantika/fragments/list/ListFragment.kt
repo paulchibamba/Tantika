@@ -2,18 +2,18 @@ package com.paulchibamba.tantika.fragments.list
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.text.BoringLayout.make
 import android.view.*
-import androidx.appcompat.widget.SearchView
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.recyclerview.widget.*
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.snackbar.Snackbar.make
 import com.paulchibamba.tantika.R
 import com.paulchibamba.tantika.data.models.ToDoData
 import com.paulchibamba.tantika.data.viewmodel.ToDoViewModel
@@ -22,9 +22,7 @@ import com.paulchibamba.tantika.fragments.SharedViewModel
 import com.paulchibamba.tantika.fragments.list.Adapter.ListAdapter
 import com.paulchibamba.tantika.utils.hideKeyboard
 import jp.wasabeef.recyclerview.animators.LandingAnimator
-import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 import kotlinx.coroutines.InternalCoroutinesApi
-import java.text.FieldPosition
 
 @InternalCoroutinesApi
 class ListFragment : Fragment(), View.OnClickListener, SearchView.OnQueryTextListener{

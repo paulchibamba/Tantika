@@ -1,11 +1,14 @@
 package com.paulchibamba.tantika.fragments
 
+import android.content.Context
 import android.os.Build
 import android.view.View
+import android.widget.ImageView
 import android.widget.Spinner
 import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.findNavController
@@ -50,11 +53,11 @@ class BindingAdapters {
         @RequiresApi(Build.VERSION_CODES.M)
         @BindingAdapter("android:parsePriorityColor")
         @JvmStatic
-        fun parsePriorityColor(cardView: CardView, priority: Priority){
+        fun parsePriorityColor(imageView: ImageView, priority: Priority){
             when(priority){
-                Priority.HIGH -> {cardView.setCardBackgroundColor(cardView.context.getColor(R.color.red))}
-                Priority.MEDIUM -> {cardView.setCardBackgroundColor(cardView.context.getColor(R.color.yellow))}
-                Priority.LOW -> {cardView.setCardBackgroundColor(cardView.context.getColor(R.color.green))}
+                Priority.HIGH -> {imageView.setColorFilter(imageView.context.getColor(R.color.highPriority), android.graphics.PorterDuff.Mode.MULTIPLY)}
+                Priority.MEDIUM -> {imageView.setColorFilter(imageView.context.getColor(R.color.mediumPriority))}
+                Priority.LOW -> {imageView.setColorFilter(imageView.context.getColor(R.color.lowPriority))}
             }
         }
 
