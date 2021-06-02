@@ -10,9 +10,6 @@
 
     <color name="lightGray">#E6E6E6</color>
     <color name="darkGray">#4B4B4B</color>
-    <color name="red">#f05656</color>
-    <color name="yellow">#ffc285</color>
-    <color name="green">#92ef96</color>
 
 <!--    Priority Indicators-->
     <color name="highPriority">#ff908f</color>
